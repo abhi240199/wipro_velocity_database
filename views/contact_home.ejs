@@ -1,5 +1,8 @@
-<!-- <link rel="stylesheet" href="/css/contact.css"> -->
+<link rel="stylesheet" type="text/css" href="css/contact.css">
 
+<div style="text-align:center">
+    <h1>Contact Manager</h1>
+</div>
 <div id="add_contact">
     <form action="contact/add-contact" method="post">
         <input type="text" placeholder="Name" name="name" required>
@@ -8,23 +11,36 @@
         <button type="submit">Add Contact</button>
     </form>
 </div>
+
+<div class="contact_value_action">
+    <div class="contact_value">
+        <div style="font-size:18px; font-weight: 700;">Name</div>
+        <div style="font-size:18px; font-weight: 700;">Phone</div>
+        <div style="font-size:18px; font-weight: 700;">Email</div>
+    </div>
+    <div class="contact_action" style="font-size:18px; font-weight: 700;">Action</div>
+</div>
 <div id="contact_manager">
     <% for(contact of contact_manager){ %>
-        <div>
-            <div>
-                <%=contact.name%>
+        <div class="contact_value_action">
+            <div class="contact_value">
+                <div>
+                    <%=contact.name%>
+                </div>
+                <div>
+                    <%=contact.phone%>
+                </div>
+                <div>
+                    <%=contact.email%>
+                </div>
             </div>
-            <div>
-                <%=contact.email%>
-            </div>
-            <div>
-                <%=contact.phone%>
+            <div class="contact_action">
+                <div> <button class="myBtn">Edit</button></div>
+                <div><a href="/contact/delete-contact/<%=contact._id%>">Delete</a></div>
             </div>
         </div>
-        <div id="action">
-            <!-- <div><a href="/contact/edit-contact/<%=contact._id%>"> Edit</a></div> -->
-            <div><a href="/contact/delete-contact/<%=contact._id%>">Delete</a></div>
-        </div>
+
         <br>
         <%} %>
 </div>
+<!-- <script src="js/script.js"></script> -->

@@ -5,7 +5,7 @@ const path = require("path");
 // const Contact = require("./models/contact");
 const app = express();
 
-app.use(express.static("./public"));
+app.use(express.static("public"));
 app.use(express.urlencoded());
 app.set("view engine", "ejs");
 app.set("views", "./views");
