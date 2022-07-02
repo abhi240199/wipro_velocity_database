@@ -1,0 +1,30 @@
+<!-- <link rel="stylesheet" href="/css/contact.css"> -->
+
+<div id="add_contact">
+    <form action="contact/add-contact" method="post">
+        <input type="text" placeholder="Name" name="name" required>
+        <input type="email" placeholder="Email" name="email" required>
+        <input type="number" placeholder="Phone Number" name="phone" required>
+        <button type="submit">Add Contact</button>
+    </form>
+</div>
+<div id="contact_manager">
+    <% for(contact of contact_manager){ %>
+        <div>
+            <div>
+                <%=contact.name%>
+            </div>
+            <div>
+                <%=contact.email%>
+            </div>
+            <div>
+                <%=contact.phone%>
+            </div>
+        </div>
+        <div id="action">
+            <!-- <div><a href="/contact/edit-contact/<%=contact._id%>"> Edit</a></div> -->
+            <div><a href="/contact/delete-contact/<%=contact._id%>">Delete</a></div>
+        </div>
+        <br>
+        <%} %>
+</div>
