@@ -14,8 +14,20 @@ module.exports.addContact = async function (req, res) {
     email: req.body.email,
     phone: req.body.phone,
   });
+
   return res.redirect("/contact");
 };
+
+// module.exports.addContact = function (req, res) {
+//   console.log(req.body);
+//   return Contact.create(req.body, function (err, contact) {
+//     if (err) {
+//       return res.status(500).end();
+//     } else {
+//       return res.json(contact);
+//     }
+//   });
+// };
 module.exports.deleteContact = async function (req, res) {
   console.log(req.body);
   var contact = await Contact.findByIdAndDelete(req.params.id);
