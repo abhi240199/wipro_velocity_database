@@ -1,12 +1,16 @@
 const express = require("express");
 const db = require("./configs/mongoose");
 const path = require("path");
+const cors = require("cors");
 // const swaggerJsdoc = require("swagger-jsdoc");
 // const swaggerUi = require("swagger-ui-express");
 // const Contact = require("./models/contact");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const app = express();
 
+app.use(cors());
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use(express.urlencoded());

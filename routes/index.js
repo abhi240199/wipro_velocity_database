@@ -3,6 +3,7 @@ const router = express.Router();
 
 router.use("/contact", require("./contact"));
 router.use("/user", require("./user"));
+router.use("/todo", require("./todo"));
 
 // router.use("/contact-swagger", require("./contactswagger"));
 

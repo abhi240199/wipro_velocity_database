@@ -13,5 +13,18 @@ function authentication(req, res, next) {
     res.send("Error");
   }
 }
+// function authentication(req, res, next) {
+//   console.log("Cookies: ", req.cookies.jwttoken);
 
+//   try {
+//     const token = req.cookies.jwttoken;
+//     console.log("Cookies: ", token.toString());
+//     const result = jwt.verify(token, "abhisecret");
+//     req.token = result;
+//     console.log("Middleware called", result);
+//     next();
+//   } catch (err) {
+//     res.send("Error");
+//   }
+// }
 module.exports = authentication;

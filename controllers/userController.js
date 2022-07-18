@@ -5,7 +5,7 @@ module.exports.createUser = async function (req, res) {
   const checkuser = await User.findOne({ email: req.body.email });
 
   if (checkuser) {
-    return res.send("User Already exists");
+    return res.send({ msg: "User Already exists", status: false });
   }
   const hashedpassword = await bcrypt.hash(req.body.password, 1);
   const user = await User.create({
@@ -14,27 +14,27 @@ module.exports.createUser = async function (req, res) {
     password: hashedpassword,
   });
 
-  return res.send("Sign Up successfully");
+  return res.send({ msg: "Sign Up successfully", status: true });
 };
-module.exports.createSession = async function (req, res) {
-  const user = await User.findOne({ email: req.body.email });
-  if (!user) {
-    return res.send("User not exists!Please sign up");
-  }
-  const checkPass = await bcrypt.compare(req.body.password, user.password);
+// module.exports.createSession = async function (req, res) {
+//   const user = await User.findOne({ email: req.body.email });
+//   if (!user) {
+//     return res.send("User not exists!Please sign up");
+//   }
+//   const checkPass = await bcrypt.compare(req.body.password, user.password);
 
-  if (checkPass) {
-    var jsontoken = jsonwebtoken.sign({ email: user.email }, "abhisecret", {
-      expiresIn: "1h",
-    });
+//   if (checkPass) {
+//     var jsontoken = jsonwebtoken.sign({ email: user.email }, "abhisecret", {
+//       expiresIn: "1h",
+//     });
 
-    return res.send({
-      msg: "Sign In successfully",
-      token: jsontoken,
-    });
-  }
-  return res.send("Invalid Username/password");
-};
+//     return res.send({
+//       msg: "Sign In successfully",
+//       token: jsontoken,
+//     });
+//   }
+//   return res.send("Invalid Username/password");
+// };
 module.exports.updatePassword = async function (req, res) {
   try {
     const user = await User.findOne({ email: req.token.email });
@@ -73,5 +73,57 @@ module.exports.deleteUser = async function (req, res) {
     }
   } catch {
     res.send("error in deleting user");
+  }
+};
+
+module.exports.createSession = async function (req, res) {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return res.send({ msg: "User not exists!Please Sign up", status: false });
+  }
+  const checkPass = await bcrypt.compare(req.body.password, user.password);
+
+  if (checkPass) {
+    var jsontoken = jsonwebtoken.sign({ email: user.email }, "abhisecret", {
+      expiresIn: "1h",
+    });
+    res.cookie("jwttoken", jsontoken, {
+      maxAge: 36000000,
+    });
+
+    return res.send({
+      msg: "Sign In Successfully",
+      token: jsontoken,
+      status: true,
+      statusCode: 404,
+    });
+  }
+  return res.send({
+    msg: "Invalid Username/Password",
+    status: false,
+    statusCode: 404,
+  });
+};
+module.exports.userProfile = async function (req, res) {
+  const reqParams = req.params.email;
+  try {
+    const user = await User.findOne({ email: reqParams });
+    if (user) {
+      res.send({
+        msg: "User Found ",
+        status: true,
+        user: user,
+      });
+    } else {
+      res.send({
+        msg: "User Not Found",
+        status: false,
+      });
+    }
+  } catch (err) {
+    res.send({
+      msg: "Error in search user",
+      status: false,
+    });
   }
 };
